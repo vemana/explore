@@ -160,6 +160,17 @@ Free space          = 4
 
 Tests robustness with a newly-created exhaustive test suite in `perf_takehome.py` named `test_exhaustive_kernel_cycles`.
 
+```python
+    def test_exhaustive_kernel_cycles(self):
+        for height in range(1, 11, 2):
+            for rounds in [1, 2, 3, height-1, height, height+1, 2*height-2, 2*height-1, 2*height, 2*height+1]:
+                if rounds <= 0:
+                    continue
+                for bmult in [1, 2, 4, 8, 9, 32, 64]:
+                    batch_size = VLEN * bmult
+                    print('-'*200)
+                    do_kernel_test(height, rounds, batch_size)
+```
 
 # Approach
 

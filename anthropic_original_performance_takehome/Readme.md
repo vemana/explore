@@ -1,4 +1,4 @@
-**NOTE: This repo shows a 1110 cycles solution** against Claude's 1363. Se [solution_readme](solution_readme.md) for a description.
+**NOTE: This repo shows a 1110 cycles solution** against Claude's 1363. [solution_readme](solution_readme.md) has a description of the thinking behind the solution and some stats.
 
 # Anthropic's Original Performance Take-Home
 
