@@ -1,5 +1,19 @@
-112345 vertices, 712345 edges, total work approx 8 * 10^10, 2s on RTX 3090, launching 113 kernels
+This has results of the CUDA Bellman Ford algorithm.
 
+Tests were run on a local RTX 3090. As the `bf.cu` reveals, there's little CPU involvement; even the randomn graph is generated using CUDA libraries.
+
+
+The algorithm is run on a random graph. First, I generate a random graph. Then, I add a path `0 -> 1 -> 2 -> ... -> N-1` with each edge 0 weight so that
+- The Bellman Ford algorithm has to iterate for V times
+- The final `d` value is 0 for every vertex
+- This way we have comparable latency across runs and correctness verifiability too
+
+------
+1000 relaxation per kernel.
+
+112345 vertices, 712345 edges, **total work approx 8 * 10^10, 2s on RTX 3090**, launching 113 kernels
+
+```
 $ ./run.sh compile bf.cu 112345 712345 1000 256 336 newBest_batch                                                                                                                                                                                                                                                                                                                                                 
 
 vertices         =       112345
@@ -41,11 +55,15 @@ itersPerBatch    =         1000
 Printing best... Completed all.
 (0 0.00) (1 0.00) (2 0.00) (3 0.00) (4 0.00) (5 0.00) (6 0.00) (7 0.00) (8 0.00) (9 0.00) 
 (112344 0.00) (112343 0.00) (112342 0.00) (112341 0.00) (112340 0.00) (112339 0.00) (112338 0.00) (112337 0.00) (112336 0.00) (112335 0.00) 
+```
 
 ----------------------
 
-112345 vertices, 7123456 edges, total work approx 8 * 10^11, 15s on RTX 3090, launching 23 kernels
+5000 relaxation steps per kernel.
 
+112345 vertices, 7123456 edges, **total work approx 8 * 10^11, 15s on RTX 3090**, launching 23 kernels
+
+```
 $ ./run.sh  bf.cu 112345 7123456 5000 256 336 newBest_batch
 Executing now: bf
 --------------------------------------
@@ -92,12 +110,15 @@ itersPerBatch    =         5000
 Printing best... Completed all.
 (0 0.00) (1 0.00) (2 0.00) (3 0.00) (4 0.00) (5 0.00) (6 0.00) (7 0.00) (8 0.00) (9 0.00) 
 (112344 0.00) (112343 0.00) (112342 0.00) (112341 0.00) (112340 0.00) (112339 0.00) (112338 0.00) (112337 0.00) (112336 0.00) (112335 0.00) 
-
+```
 
 -----------------------
 
-112345 vertices, 712345 edges, total work ~ 8*10^10, 5s on RTX 3090 with 112345 kernel launches. Kernel launch ~ 40 us.
+1 relaxation per kernel. The number of kernel launches = number of vertices.
 
+112345 vertices, 712345 edges, total work ~ 8*10^10, 5s on RTX 3090 with 112345 kernel launches. **Kernel launch ~ 40 us.**
+
+```
 $ ./run.sh bf.cu 112345 712345 1000 256 336 newBest_one
 
 vertices         =       112345
@@ -139,4 +160,4 @@ itersPerBatch    =         1000
 Printing best... Completed all.
 (0 0.00) (1 0.00) (2 0.00) (3 0.00) (4 0.00) (5 0.00) (6 0.00) (7 0.00) (8 0.00) (9 0.00) 
 (112344 0.00) (112343 0.00) (112342 0.00) (112341 0.00) (112340 0.00) (112339 0.00) (112338 0.00) (112337 0.00) (112336 0.00) (112335 0.00) 
-
+```
