@@ -1,3 +1,5 @@
+**NOTE: This repo shows a 1110 cycles solution** against Claude's 1363. Se [solution_readme](solution_readme.md) for a description.
+
 # Anthropic's Original Performance Take-Home
 
 This repo contains a version of Anthropic's original performance take-home, before Claude Opus 4.5 started doing better than humans given only 2 hours.
