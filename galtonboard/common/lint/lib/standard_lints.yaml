@@ -1,0 +1,9 @@
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    - avoid_private_typedef_functions
+    - directives_ordering
+    - implementation_imports
+    - prefer_relative_imports
+    - sort_constructors_first

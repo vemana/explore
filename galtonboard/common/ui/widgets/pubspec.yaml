@@ -1,0 +1,25 @@
+name: common_ui_widgets
+description: "Common ui widgets"
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.5.1
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  common_event:
+    path: ../../event
+  common_math:
+    path: ../../math
+  common_state:
+    path: ../../state
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  common_lint:
+    path: "../../lint"
+

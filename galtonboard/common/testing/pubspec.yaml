@@ -1,0 +1,19 @@
+name: common_testing
+description: "Edit this project description"
+version: 0.0.1
+publish_to: 'none'
+
+environment:
+  sdk: ^3.5.1
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  test: ^1.25.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  common_lint:
+    path: "../lint"

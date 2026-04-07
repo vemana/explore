@@ -1,0 +1,16 @@
+name: "common_state"
+description: "Edit this project description"
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.5.1
+
+dependencies:
+  built_collection: ^5.1.1
+  common_event:
+    path: "../event"
+
+dev_dependencies:
+  common_lint:
+    path: "../lint"

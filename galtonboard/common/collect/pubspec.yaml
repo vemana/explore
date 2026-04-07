@@ -1,0 +1,11 @@
+name: common_collect
+description: "Edit this project description"
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.5.1
+
+dev_dependencies:
+  common_lint:
+    path: "../lint"

@@ -1,0 +1,11 @@
+name: common_event
+description: "Common package for handling state changes via Eventbus"
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.5.1
+
+dev_dependencies:
+  common_lint:
+    path: "../lint"

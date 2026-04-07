@@ -1,0 +1,7 @@
+include: package:common_lint/standard_lints.yaml
+
+analyzer:
+  exclude:
+    - lib/**/*.g.dart
+    - lib/**/*.freezed.dart
+    - lib/**/*.inject.dart
