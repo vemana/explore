@@ -35,12 +35,13 @@ public class VTestRunner extends BlockJUnit4ClassRunner {
     super(testClass);
 
     // parallelization
-    ParallelTestsConfig config = testClass.getAnnotation(ParallelTestsConfig.class);
-    if (config != null) {
-      setScheduler(new Parallelizer(config));
+    TestConfig testConfig = testClass.getAnnotation(TestConfig.class);
+    ParallelTestsConfig parallelConfig = testConfig != null ? testConfig.parallelize() : null;
+    if (parallelConfig != null) {
+      setScheduler(new Parallelizer(parallelConfig));
       System.setProperty("jmh.ignoreLock", "true");
     }
-
+    
     jmhMethods = new HashSet<>(JmhJunitSupport.jmhTestMethods(getTestClass()));
   }
 
