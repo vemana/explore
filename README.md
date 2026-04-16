@@ -16,8 +16,11 @@ An eclectic mix of small projects for one of
 - **fast_cpp_spsc_queue**: This is a simple, fast SPSC queue (2.2B int64 exchanges/sec on Ryzen 7950X) in C++ that is in sympathy with the hardware. Modern processors (even CPUs) are remarkably fast if you use them in a certain way - by understanding the cache coherency protocol, memory consistency model, the bandwidth of inter-core cache communication. See [details](fast_cpp_spsc_queue/README.md)
 
 - **1brc**: The (in)famous Java [1-Billion Row Challenge](https://github.com/gunnarmorling/1brc). This repo contains my entry and helper scripts to run it (if it still runs!). It finished top 20 in the comp and top 10 in the hidden bonus set (a harder challenge that penalized overfitting on the competition set).
+
+- **jmh_junit**: A Java JUnit test runner that can run JMH benchmarks & assert on metrics, run tests in parallel or a combination of both. JMH in junit is valuable for CI of performance-critical sections. Running parallel tests (while sharing test-class-level setup) cuts down iteration time on slow tests (e.g. those that start up servers).
 ---
 
 # How do I run these?
 
 My main goal is to put out the full code but not necessarily the build tooling. Some of them are adhoc projects and build tools are just a script or two tweaked to work on my machine. Some come from my personal monorepo on Bazel and it is pretty timeconsuming to extract a working version. So, I just make no promises on building/running them. Besides, they are not that interesting! That said, all the relevant code is there.
+
