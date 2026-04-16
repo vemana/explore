@@ -40,12 +40,23 @@ Because of the guiding **principle**: If you know JMH, the additional knowledge 
 
 ---
 # How to use?
-The Testrunner is [VTestRunner](com/vemana/common/testing/VTestRunner.java). See its javadoc and inline examples below.
+The Testrunner is [VTestRunner](com/vemana/common/testing/VTestRunner.java). See its javadoc and inline examples below. Note the following.
+- `@TestConfig(parallelize = ...)` annotation on the class. Tests will be run in parallel.
+- `@JmhAssert(..)` annotations on JMH benchmark test methods
+- Note how you can mix and match regular `@Test` with JMH methods
+- All the usual JUnit4 annotations like `@Rule`, `@ClassRule`, `@Test`, `@Setup`, `@TearDown` work normally (not shown here)
 
-```java {1-2, 13-15, 27, 56}
+So, your mental model can be `Leave the testing to the Testrunner; let me focus on my tests.`
+
+```java
 @RunWith(VTestRunner.class)
 @TestConfig(parallelize = @ParallelTestsConfig(platformThreads = 4))
 public class JmhRunnerTest {
+
+  @Test
+  public void normalTest() {
+    // You can mix and match regular tests with JMH tests.
+  }
 
   @Benchmark
   @BenchmarkMode({Mode.AverageTime})
