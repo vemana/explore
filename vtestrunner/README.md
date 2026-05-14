@@ -19,18 +19,20 @@ VTestRunner offers the following features:
 - JMH support
   - Run JMH benchmarks as a regular test & avoid custom CI setups
   - Perform assertions on the metrics obtained from those JMH benchmarks & catch regressions in perf-critical code
+  - Ergonomic assertions: `@JmhAssert(avgt_max_nanos = 20) @Benchmark public void my_benchmark(Blackhole bh) {}`
 - Parallel tests
   - Run tests in parallel and cut down on iteration time. All the above features work with parallel threads
+  - Ergomically specify parallelism `@TestConfig(parallelize = @ParallelTestsConfig(platformThreads = 4))`
   - Valuable on tests that start a server and execute a ton of tests talking to the server
   - Example: If your server startsup in 10 secs and 20 tests take 1 sec each, your iteration time is 30 secs. If you can spare 20 threads, your iteration time is 11 secs. **30 secs -> 10 secs** by parallelizing tests.
-  - You can run parallel tests either using Virtual Threads or Platform threads. JMH typically wants platform threads and I/O bound ones like virtual threads. Of course, I assume you know what you are doing with JMH. You shouldn't be trust JMH benchmarks unless cores are truly free from interference. So, take care when running JMH tests in parallel.
+  - You can run parallel tests either using Virtual Threads or Platform threads. JMH typically wants platform threads and I/O bound ones like virtual threads. Note: you shouldn't be trust JMH benchmarks unless cores are truly free from interference. So, take care when running JMH tests in parallel.
 - Efficiency
-  - Class level parameters that would typicall be static `ClassRule`s (e.g. Database Rules) can implement `SharedTestRule` and run only once instead of once per test case!
+  - Class level parameters that would typically be static `ClassRule`s (e.g. Database Rules) can implement `SharedTestRule` interface and run only once even when used as a Class-level parameter, instead of once per test case
 - Overall
   - The mantra is `Let the SWEs focus on tests and have them remember very little to use VTestRunner`.
-  - It is designed to work like you'd guess.
+  - It is designed to work like you'd guess
 
-Obviously, this cannot do everything that Junit5+ can do. By giving up the ability to (a) Accept third party code (b) Extend test running lifecycle, we can get a no-magic version that covers perhaps 95% of usage. 
+Obviously, `VTestRunner` cannot do everything that Junit5+ can do. By giving up the ability to (a) Accept third party code (b) Extend test running lifecycle, we can get a no-magic API that still covers perhaps 95% of usage.
 
 ---
 
@@ -38,20 +40,18 @@ Obviously, this cannot do everything that Junit5+ can do. By giving up the abili
 
 **Are there any API-level restrictions?**
 
-There are no known restrictions; just write your benchmarks like normal and add assertions. That is, you don't need to remember anything specific to this runner.
-
-Perhaps the one thing worth mentioning is that if you fields in your test class, JMH doesn't like them. So, if you plan to write any JMH test in your test class, avoid fields.
+There are no known restrictions. That is, you don't need to remember anything specific to this runner. Perhaps the one thing worth mentioning is that if you have fields in your test class, JMH doesn't like them. So, if you plan to write any JMH test in your test class, avoid fields. This also means that JMH tests will have to use native JMH parametrization instead of `ClassParam` and `MethodParam`.
 
 ---
 **Are there any environment restrictions?** What version of Java?
 
-Yes, there are. 
-- It requires a stable ClassFileApi (exited preview into final innn JDK 24)
+Yes, there are.
+- It requires a stable ClassFileApi (exited preview into final in JDK 24)
 - Your test class to be compiled with "-parameters"
 
 Why?
 - It uses Java's ClassFileApi to read bytecode of the test class to know the declared method and class parameter fields. This choice avoids annotations and keeps the API ergonomic. This version is tested on Java 26's ClassFileApi, but should run anywhere the ClassFileApi is stable.
-- The `-parameters` javac flag preserves method argument names. The test runner matches these arg names against declared method parameter fields in the test class in order when invoking a test with method parameters.
+- The `-parameters` javac flag preserves method argument names. The test runner matches these arg names against declared method parameter fields in the test class when invoking a test with method parameters.
 
 ---
 **Can I extend it?**
@@ -61,14 +61,14 @@ The library written to be valuable today but extensible
 - Easy to add custom time units, metrics from profilers like GC etc
 
 ---
-**Why are asserts done via annotations**?
+**Why are JMH asserts done via annotations**?
 
 Because of the guiding **principle**: If you know JMH, the additional knowledge you need to use this library should be minimal. Right now, it just requires you to remember adding `@JmhAssert(...)` assertions on `@Benchmark` method and we get to keep assertions out of the benchmark code. Besides, assertions on JMH benchmarks are easily expressible as annotations because they are simple predicates like `throughput > 10 ops/sec` or `latency < 5 secs/op`.
 
 ---
-Can I use it? Where can I get the library?
+**Where can I get the library?**
 
-Like I explained in the repo's README, this is meant to be a source code only thing. All the code is there and even the bazel build files. I don't provide a compiled jar because this is from my monorepo and it is somewhat difficult to extract and make a library available out of it. Any Java 26+ compiler should be able to build it.
+Like I explained in the top level [README](../README.md), this repo is meant to be a source code only thing. I don't provide a compiled jar because this is from my monorepo and it is somewhat difficult to extract and make a library available out of it. Most of the code required to build it (see the `BUILD.bazel`) is exported here on a best-effort basis, but there may be missing pieces.
 
 ---
 
@@ -128,7 +128,7 @@ This **JMH example** demonstrates a few aspects
 // Run tests in parallel using platform threads. You can also specify virtual threads.
 // Leave this out run tests serially.
 // Note: running Jmh tests in parallel may skew results.
-@TestConfig(parallelize = @ParallelTestsConfig(platformThreads = 4)) 
+@TestConfig(parallelize = @ParallelTestsConfig(platformThreads = 4))
 public class JmhRunnerTest {
 
   // Measurement/Warmup/Fork only need to be specified on one member of the group.
