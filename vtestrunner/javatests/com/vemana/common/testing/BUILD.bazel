@@ -1,0 +1,16 @@
+load("//shared/rules/java:java_defs.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "AllTests",
+    timeout = "short",
+    srcs = glob(["*.java"]),
+    args = ["--test_filter='basic'"],  # Let's test test-filtering as well
+    deps = [
+        "//java/com/vemana/common/testing",
+        "//java/com/vemana/common/testing:internal",
+        "//java/com/vemana/common/testing:shared",
+        "//tparty/guava",
+        "//tparty/junit",
+        "//tparty/truth",
+    ],
+)
