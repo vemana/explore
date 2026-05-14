@@ -100,16 +100,13 @@ The following test demonstrates **class and method parameters**. Note the lack o
 
   // All standard Junit annotations work like normal: @ClassRule, @Rule, @Before etc
 
-  // Note: stressIters argument name matches stressIters field name. This is intentional.
-  // The return type of MethodParam.chooseFrom(..) is intentionally MethodParam rather than
-  // the chosen object (like with ClassParam). At runtime, all other MethodParams will be null
-  // to prevent accidental misuse.
+  // Note: stressIters argument name matches stressIters field name.
   @TestAnnotations.TestWithParameters
   public void perf_test(int stressIters, String stressType) {
     // Runs db x max_connections x stressIters x stressType combinations
     // 2 x 2 x 3 x 2 = 24
 
-    // During execution of this method, query_timeout_m` will be null to avoid an undeclared dependency.
+    // During execution of this method, query_timeout_ms` will be null to avoid an undeclared dependency.
     // The return type of MethodParam.chooseFrom(..) is intentionally MethodParam rather than
     // the chosen object (like with ClassParam). MethodParam instances have values only as method
     // parameters and they are null otherwise.
