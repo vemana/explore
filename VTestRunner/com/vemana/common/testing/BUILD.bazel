@@ -1,0 +1,56 @@
+load("//shared/rules/java:java_defs.bzl", "java_library")
+
+package(default_visibility = ["//visibility:private"])
+
+SHARED_SRCS = [
+    "ParallelTestsConfig.java",
+    "SharedTestRule.java",
+]
+
+java_library(
+    name = "testing",
+    testonly = 1,
+    srcs = glob(
+        ["*.java"],
+        exclude = SHARED_SRCS,
+    ),
+    visibility = ["//visibility:public"],
+    exports = [
+        "shared",
+        "//java/com/vemana/common/performance/jmh:jmh_test_runner",
+    ],
+    deps = [
+        "internal",
+        "shared",
+        "//java/com/vemana/common/error",
+        "//java/com/vemana/common/performance/jmh:jmh_test_runner",
+        "//tparty/guava",
+        "//tparty/junit",
+    ],
+)
+
+java_library(
+    name = "shared",
+    srcs = SHARED_SRCS,
+    visibility = ["//visibility:public"],
+    deps = [
+        "//tparty/junit",
+    ],
+)
+
+java_library(
+    name = "internal",
+    testonly = 1,
+    srcs = glob(["internal/**/*.java"]),
+    visibility = [
+        "//java/com/vemana/common/testing:__subpackages__",
+        "//javatests/com/vemana/common/testing:__subpackages__",
+    ],
+    deps = [
+        "shared",
+        "//java/com/vemana/common/error",
+        "//java/com/vemana/common/performance/jmh:jmh_test_runner",
+        "//tparty/guava",
+        "//tparty/junit",
+    ],
+)

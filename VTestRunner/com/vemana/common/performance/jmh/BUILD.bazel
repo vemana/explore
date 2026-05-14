@@ -1,0 +1,36 @@
+load("//shared/rules/java:java_defs.bzl", "java_library")
+
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "jmh",
+    srcs = glob(
+        ["*.java"],
+    ),
+    deps = [
+        "//java/com/vemana/common/error",
+        "//java/com/vemana/common/file",
+        "//java/com/vemana/common/flags",
+        "//java/com/vemana/common/flags:common",
+        "//java/com/vemana/common/performance",
+        "//java/com/vemana/common/reflect",
+        "//tparty/asyncprofiler",
+        "//tparty/errorprone",
+        "//tparty/guava",
+        "//tparty/jmh",
+    ],
+)
+
+java_library(
+    name = "jmh_test_runner",
+    testonly = 1,
+    srcs = glob(
+        ["testing/*.java"],
+    ),
+    deps = [
+        "//tparty/guava",
+        "//tparty/jmh",
+        "//tparty/junit",
+        "//tparty/truth",
+    ],
+)

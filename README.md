@@ -17,7 +17,7 @@ An eclectic mix of small projects for one of
 
 - **1brc**: The (in)famous Java [1-Billion Row Challenge](https://github.com/gunnarmorling/1brc). This repo contains my entry and helper scripts to run it (if it still runs!). It finished top 20 in the comp and top 10 in the hidden bonus set (a harder challenge that penalized overfitting on the competition set).
 
-- **jmh_junit**: A Java JUnit test runner that can run JMH benchmarks & assert on metrics, run tests in parallel or a combination of both. JMH in junit is valuable for CI of performance-critical sections. Running parallel tests (while sharing test-class-level setup) cuts down iteration time on slow tests (e.g. those that start up servers). See [details](jmh_junit/README.md).
+- **VTestRunner**: A Java JUnit4 test runner that can support (1) JMH benchmarks & assertions on metrics (2) parallel tests (3) class-level parameters (4) method-level parameters all while (1) staying **ergonomic** for SWEs (2) efficient multiplexing - tests can multiplex between mysql & postgres without static state starting each db only once across test cases. Avoid Junit5+'s unreadable annotation magic while obtaining most of its power.
 ---
 
 # How do I run these?
