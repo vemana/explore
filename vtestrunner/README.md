@@ -81,11 +81,13 @@ The following test demonstrates **class and method parameters**. Note the lack o
 ```java
 
   // Method level parameters. These have to be declared public (for now; until I get around to fixing it)
+  // These are intentionally declared MethodParam<T> to avoid using them from tests that
+  // don't inject them as method parameters. See example below for details.
   public final MethodParam<Integer> stressIters = MethodParam.chooseFrom(1, 100, 10000);
   public final MethodParam<String> stressType = MethodParam.chooseFrom("get", "put");
   public final MethodParam<Integer> query_timeout_ms = MethodParam.chooseFrom(500, 1000);
 
-  // Class level parameters. Each test method will run once 2 * 3 times
+  // Class level parameters. 2 * 2 commbinations here.
   // Here, DbTestCase implements `SharedTestRule` which means it supports sharing its rule across parallel tests.
   // This means that DbTestCase is thread safe and only starts the Db instance once. There are only two such
   // DbTestCase instances created here - the postgres & yugabyte ones. Half the tests get Postgres & the other
