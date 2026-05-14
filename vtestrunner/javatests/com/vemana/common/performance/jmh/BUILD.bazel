@@ -1,0 +1,15 @@
+load("//shared/rules/java:java_defs.bzl", "java_library")
+load("//shared/rules/java:java_defs.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "AllTests",
+    size = "small",
+    srcs = glob(["*.java"]),
+    deps = [
+        "//java/com/vemana/common/concurrent",
+        "//java/com/vemana/common/performance/jmh:jmh_test_runner",
+        "//java/com/vemana/common/testing",
+        "//tparty/jmh",
+        "//tparty/junit",
+    ],
+)
